@@ -31,16 +31,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const UserModel = require("./model/user");
 async function addUser() {
-	//find users
-
-	let data = [
-		{user_id: 1,name: "Elsa Ingram"},
-		{user_id: 2,name: "Paul Marsh"},
-		{user_id: 3,name: "D Joshi"},
-		{user_id: 4,name: "Nick Holden"},
-		{user_id: 5,name: "John"}
-	]
-	await UserModel.create(data);
+	if(!await UserModel.countDocuments()) {
+		let data = [
+			{user_id: 1,name: "Elsa Ingram"},
+			{user_id: 2,name: "Paul Marsh"},
+			{user_id: 3,name: "D Joshi"},
+			{user_id: 4,name: "Nick Holden"},
+			{user_id: 5,name: "John"}
+		]
+		await UserModel.create(data);
+	} else {
+		console.log('user already added')
+	}
 }
 addUser()
 
